@@ -101,9 +101,67 @@ html, body
     </div>-->
     
     
-    <script type="text/javascript" src="exif.js"></script>    
-    <script>
+    <script type="text/javascript" src="exif.js"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+    <!-- Firebase App is always required and must be first -->
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDT6vGeYFgQJbuQvvtVQQHpuoKxcs5TDRE",
+    authDomain: "geotagtext.firebaseapp.com",
+    databaseURL: "https://geotagtext.firebaseio.com",
+    projectId: "geotagtext",
+    storageBucket: "geotagtext.appspot.com",
+    messagingSenderId: "1071662476331"
+  };
+  firebase.initializeApp(config);
+
+
+
+firebase.auth().signInAnonymously().catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+    // ...
+    console.log(errorCode);
+    console.log(errorMessage);
+});
+
+var ref = firebase.database().ref();
+
+ firebase.database().ref('/').once('value').then(function(snapshot) {
+     console.log("snapshot",snapshot);
+     // ...
+}); 
+
+
+  function writeTag(tagId, lat, lon, color) {
+  var obj = {
+    latitude: lat,
+    longitude: lon,
+    color: color
+  };
+  console.log(obj);
+  
+  firebase.database().ref('tags/' + tagId).set(obj,
+  function(error) {
+    if (error) {
+  // The write failed...
+  console.log("ERROR:",error);
+    } else {
+  // Data saved successfully!
+  console.log("SUCCESS");  
+    }
+  });
+}
+  
       var x = document.getElementById("demo");
 function getLocation() {
     if (navigator.geolocation) {
@@ -112,7 +170,8 @@ function getLocation() {
       //        x.innerHTML = "Geolocation is not supported by this browser.";
       alert("Geolocation is not supported by this browser.");
     }
-}
+  }
+  var counter = 0;
 function showPosition(position) {
     x.innerHTML = "Latitude: " + position.coords.latitude + 
 	"<br>Longitude: " + position.coords.longitude;
@@ -122,7 +181,8 @@ function showPosition(position) {
 
     var marker = new mapboxgl.Marker()
 	.setLngLat(ll)
-	.addTo(map);
+  .addTo(map);
+  writeTag("rob"+counter++,latDec,lonDec,"red");
 }
 
 // https://stackoverflow.com/questions/8678371/how-to-convert-gps-degree-to-decimal-and-vice-versa-in-jquery-or-javascript-and
