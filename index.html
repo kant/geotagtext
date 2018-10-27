@@ -15,6 +15,17 @@
 
 <!-- <script src="https://cdn.rawgit.com/naptha/tesseract.js/0.2.0/dist/tesseract.js"> -->
 </script>
+
+<script>
+
+
+
+</script>
+
+
+
+
+
     <style>
         /*body { margin:0; padding:0; }
         #map { position:absolute; top:10%; bottom:0; width:100%; }*/
@@ -51,7 +62,6 @@ html, body
 }
 
 
-
  
 
 
@@ -82,7 +92,11 @@ html, body
 	</div>
  
 
-
+<div class="btn-group-vertical">
+  <button type="button" onclick="getLocation()" class="btn btn-primary">Red</button>
+  <button type="button"  onclick="getLocation()" class="btn btn-primary">Blue</button>
+  <button type="button"  onclick="getLocation()" class="btn btn-primary">Green</button>
+</div>
 
 
 
@@ -180,10 +194,16 @@ function showPosition(position) {
     var ll = new mapboxgl.LngLat(lonDec, latDec);
 
     var marker = new mapboxgl.Marker()
+      
 	.setLngLat(ll)
   .addTo(map);
   writeTag("rob"+counter++,latDec,lonDec,"red");
 }
+
+ 
+
+
+
 
 // https://stackoverflow.com/questions/8678371/how-to-convert-gps-degree-to-decimal-and-vice-versa-in-jquery-or-javascript-and
 function getDMS2DD(days, minutes, seconds, direction) {
