@@ -93,9 +93,9 @@ html, body
  
 
 <div class="btn-group-vertical">
-  <button type="button" onclick="getLocation()" class="btn btn-primary">Red</button>
-  <button type="button"  onclick="getLocation()" class="btn btn-primary">Blue</button>
-  <button type="button"  onclick="getLocation()" class="btn btn-primary">Green</button>
+  <button type="button" onclick="getLocation('red')" class="btn btn-primary">Red</button>
+  <button type="button"  onclick="getLocation('blue')" class="btn btn-primary">Blue</button>
+  <button type="button"  onclick="getLocation('green')" class="btn btn-primary">Green</button>
 </div>
 
 
@@ -152,8 +152,12 @@ var ref = firebase.database().ref();
 
  firebase.database().ref('/').once('value').then(function(snapshot) {
      console.log("snapshot",snapshot);
-     // ...
-}); 
+ }); 
+
+ firebase.database().ref('/tags').once('value').then(function(snapshot) {
+     console.log("tags snapshot",snapshot);
+     console.log("tags val snapshot",snapshot.val());     
+ }); 
 
 
   function writeTag(tagId, lat, lon, color) {
@@ -175,17 +179,21 @@ var ref = firebase.database().ref();
     }
   });
 }
-  
+
       var x = document.getElementById("demo");
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+function getLocation(color) {
+  if (navigator.geolocation) {
+  // color 
+      //        navigator.geolocation.getCurrentPosition(showPosition);
+      navigator.geolocation.getCurrentPosition(
+          (pos) => { showPositionC(pos,color); }
+      );      
     } else {
       //        x.innerHTML = "Geolocation is not supported by this browser.";
       alert("Geolocation is not supported by this browser.");
     }
   }
-  var counter = 0;
+  var counter = 2;
 function showPosition(position) {
     x.innerHTML = "Latitude: " + position.coords.latitude + 
 	"<br>Longitude: " + position.coords.longitude;
@@ -198,6 +206,21 @@ function showPosition(position) {
 	.setLngLat(ll)
   .addTo(map);
   writeTag("rob"+counter++,latDec,lonDec,"red");
+}
+
+function showPositionC(position,color) {
+    console.log("color in showPositionC",color);
+    x.innerHTML = "Latitude: " + position.coords.latitude + 
+	"<br>Longitude: " + position.coords.longitude;
+    var lonDec = position.coords.longitude;
+    var latDec = position.coords.latitude;
+    var ll = new mapboxgl.LngLat(lonDec, latDec);
+
+    var marker = new mapboxgl.Marker()
+      
+	.setLngLat(ll)
+  .addTo(map);
+  writeTag("rob"+counter++,latDec,lonDec,color);
 }
 
  
