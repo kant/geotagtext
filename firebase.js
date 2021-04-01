@@ -1,12 +1,12 @@
 // Possibly merge this file into tagscript
 // Initialize Firebase
 var config = {
-    apiKey: "AIzaSyDT6vGeYFgQJbuQvvtVQQHpuoKxcs5TDRE",
-    authDomain: "geotagtext.firebaseapp.com",
-    databaseURL: "https://geotagtext.firebaseio.com",
-    projectId: "geotagtext",
-    storageBucket: "geotagtext.appspot.com",
-    messagingSenderId: "1071662476331"
+    apiKey: "FIREBASE_KEY",
+    authDomain: "AUTH_DOMAIN",
+    databaseURL: "DATABASE_URL",
+    projectId: "PROJECT_ID",
+    storageBucket: "STORAGE_BUCKET",
+    messagingSenderId: "MESSAGING_SENDER_ID"
 };
 
 // probably this should be moved out as a call into builder.html and index.html
